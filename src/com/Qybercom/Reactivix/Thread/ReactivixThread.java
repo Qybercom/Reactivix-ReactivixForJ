@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Threading manager
+ * Class ReactivixThread
  */
 public class ReactivixThread implements Runnable {
 	public static final int TICK = 10; // Milliseconds
@@ -67,6 +67,8 @@ public class ReactivixThread implements Runnable {
 
 				if (_stopCallback != null)
 					_stopCallback.apply(_context);
+
+				_context.ReactivixThreadStop(this);
 			}
 
 			try {
@@ -106,8 +108,8 @@ public class ReactivixThread implements Runnable {
 	 * @param start The callback with internal thread context
 	 */
 	public void Start (Action<IReactivixThread> start) {
-		_startCallback = start;
 		_stopSignal = false;
+		_startCallback = start;
 		_thread.start();
 	}
 
@@ -115,9 +117,7 @@ public class ReactivixThread implements Runnable {
 	 * Overloaded variant of Stop() without callback
 	 */
 	public void Stop () {
-		_stopSignal = true;
-
-		//if (forced) _thread.Abort();
+		Stop(null);
 	}
 
 	/**
@@ -126,8 +126,6 @@ public class ReactivixThread implements Runnable {
 	public void Stop (Action<IReactivixThread> stop) {
 		_stopSignal = true;
 		_stopCallback = stop;
-
-		//if (forced) _thread.Abort();
 	}
 
 	/**
