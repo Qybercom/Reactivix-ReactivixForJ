@@ -11,11 +11,12 @@ import java.net.InetSocketAddress;
  */
 public class ReactivixNetworkTransportTCP implements IReactivixNetworkTransport {
 	private Socket _socket;
-	//private DataInputStream _streamInput;
-	//private DataOutputStream _streamOutput;
 	private BufferedReader _reader;
 	private BufferedWriter _writer;
 
+	/**
+	 * Default constructor of ReactivixNetworkTransportTCP
+	 */
 	public ReactivixNetworkTransportTCP () {
 		_socket = new Socket();
 	}
@@ -36,14 +37,8 @@ public class ReactivixNetworkTransportTCP implements IReactivixNetworkTransport 
 	public boolean Connect (String host, int port) throws IOException {
 		_socket.connect(new InetSocketAddress(host, port));
 
-		//_streamInput = new DataInputStream(_socket.getInputStream());
-		//_streamOutput = new DataOutputStream(_socket.getOutputStream());
-
 		_reader = new BufferedReader(new InputStreamReader(_socket.getInputStream()));
 		_writer = new BufferedWriter(new OutputStreamWriter(_socket.getOutputStream()));
-
-		//_socket.setSoTimeout(0);
-		//_socket.getChannel().configureBlocking(false);
 
 		return true;
 	}
@@ -54,13 +49,8 @@ public class ReactivixNetworkTransportTCP implements IReactivixNetworkTransport 
 	 * @return boolean
 	 */
 	public boolean Send (String data) throws IOException {
-		//_socket.getChannel().configureBlocking(true);
-		/*_socket.getOutputStream().writeUTF(data);
-		_socket.getOutputStream().flush();*/
 		_writer.write(data);
 		_writer.flush();
-		//_socket.getOutputStream();
-		//_socket.getChannel().configureBlocking(false);
 
 		return true;
 	}
@@ -70,6 +60,7 @@ public class ReactivixNetworkTransportTCP implements IReactivixNetworkTransport 
 	 */
 	public String Receive () throws IOException {
 		int available = _socket.getInputStream().available();
+
 		if (available == 0) return null;
 
 		char[] buffer = new char[available];
@@ -84,6 +75,7 @@ public class ReactivixNetworkTransportTCP implements IReactivixNetworkTransport 
 	 */
 	public boolean Close () throws IOException {
 		_socket.close();
+
 		return true;
 	}
 }

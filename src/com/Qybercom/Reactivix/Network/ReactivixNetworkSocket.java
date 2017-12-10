@@ -1,11 +1,7 @@
 package com.Qybercom.Reactivix.Network;
 
 import com.Qybercom.Reactivix.Utils.ReactivixEvent;
-
-import com.Qybercom.Reactivix.Network.Events.ReactivixNetworkSocketEventConnect;
-import com.Qybercom.Reactivix.Network.Events.ReactivixNetworkSocketEventData;
-import com.Qybercom.Reactivix.Network.Events.ReactivixNetworkSocketEventClose;
-import com.Qybercom.Reactivix.Network.Events.ReactivixNetworkSocketEventError;
+import com.Qybercom.Reactivix.Network.Events.*;
 
 /**
  * Class ReactivixNetworkSocket
@@ -24,19 +20,35 @@ public class ReactivixNetworkSocket {
 	public void setPort (int port) { _port = port; }
 
 
-	private ReactivixEvent<ReactivixNetworkSocketEventConnect> _eventConnect;
+	/**
+	 * @return ReactivixEvent<ReactivixNetworkSocketEventConnect>
+	 */
 	public ReactivixEvent<ReactivixNetworkSocketEventConnect> EventConnect () { return _eventConnect; }
+	private ReactivixEvent<ReactivixNetworkSocketEventConnect> _eventConnect;
 
-	private ReactivixEvent<ReactivixNetworkSocketEventData> _eventData;
+	/**
+	 * @return ReactivixEvent<ReactivixNetworkSocketEventData>
+	 */
 	public ReactivixEvent<ReactivixNetworkSocketEventData> EventData () { return _eventData; }
+	private ReactivixEvent<ReactivixNetworkSocketEventData> _eventData;
 
-	private ReactivixEvent<ReactivixNetworkSocketEventClose> _eventClose;
+	/**
+	 * @return ReactivixEvent<ReactivixNetworkSocketEventClose>
+	 */
 	public ReactivixEvent<ReactivixNetworkSocketEventClose> EventClose () { return _eventClose; }
+	private ReactivixEvent<ReactivixNetworkSocketEventClose> _eventClose;
 
-	private ReactivixEvent<ReactivixNetworkSocketEventError> _eventError;
+	/**
+	 * @return ReactivixEvent<ReactivixNetworkSocketEventError>
+	 */
 	public ReactivixEvent<ReactivixNetworkSocketEventError> EventError () { return _eventError; }
+	private ReactivixEvent<ReactivixNetworkSocketEventError> _eventError;
 
-
+	/**
+	 * @param transport Selected low-level protocol
+	 * @param host Server hostname or IP address
+	 * @param port Server port
+	 */
 	public ReactivixNetworkSocket (IReactivixNetworkTransport transport, String host, int port) {
 		setTransport(transport);
 
@@ -49,6 +61,9 @@ public class ReactivixNetworkSocket {
 		_eventError = new ReactivixEvent<>();
 	}
 
+	/**
+	 * Performing listening for incoming data
+	 */
 	public void Pipe () {
 		try {
 			if (_transport.Connected()) {
@@ -63,6 +78,9 @@ public class ReactivixNetworkSocket {
 		}
 	}
 
+	/**
+	 * @return boolean
+	 */
 	public boolean Connect () {
 		try {
 			boolean connect = _transport.Connect(_host, _port);
@@ -78,6 +96,11 @@ public class ReactivixNetworkSocket {
 		}
 	}
 
+	/**
+	 * @param data Data string
+	 *
+	 * @return boolean
+	 */
 	public boolean Send (String data) {
 		try {
 			return _transport.Send(data);
@@ -89,6 +112,9 @@ public class ReactivixNetworkSocket {
 		}
 	}
 
+	/**
+	 * @return boolean
+	 */
 	public boolean Close () {
 		try {
 			boolean close = _transport.Close();

@@ -31,10 +31,47 @@ public class QuarkNetworkPacket {
 	@Expose(serialize = false, deserialize = false)
 	private Type _typeData;
 
+	/**
+	 * @return String
+	 */
+	public String URL () { return url; }
+
+	/**
+	 * @return String
+	 */
+	public String Response () { return response == null ? "" : response; }
+
+	/**
+	 * @return String
+	 */
+	public String Event () { return event == null ? "" : event; }
+
+	/**
+	 * @return Object
+	 */
+	public Object Data () { return data; }
+
+	/**
+	 * @return Type
+	 */
+	public Type TypeData () { return _typeData; }
+
+	/**
+	 * @return Gson
+	 */
+	public Gson Serializer () { return _serializer; }
+
+	/**
+	 * Default constructor of QuarkNetworkPacket
+	 */
 	public QuarkNetworkPacket () {
 		_serializer = new Gson();
 	}
 
+	/**
+	 * @param url Target endpoint
+	 * @param data Payload DTO
+	 */
 	public QuarkNetworkPacket (String url, Object data) {
 		_serializer = new Gson();
 
@@ -42,20 +79,23 @@ public class QuarkNetworkPacket {
 		this.data = data;
 	}
 
-	public Gson Serializer () { return _serializer; }
-	public Type TypeData () { return _typeData; }
-	public String URL () { return url; }
-	public String Response () { return response == null ? "" : response; }
-	public String Event () { return event == null ? "" : event; }
-	public Object Data () { return data; }
-
+	/**
+	 * @param typeData Serialization notes
+	 *
+	 * @return QuarkNetworkPacket
+	 */
 	public QuarkNetworkPacket Trigger (Type typeData) {
 		_typeData = typeData;
-		data = _serializer.fromJson(Payload(), _typeData);
+
+		if (_typeData != null)
+			data = _serializer.fromJson(Payload(), _typeData);
 
 		return this;
 	}
 
+	/**
+	 * @return String
+	 */
 	public String Payload () {
 		return _serializer.toJson(data);
 	}

@@ -11,7 +11,9 @@ import java.util.List;
 public class ReactivixThread implements Runnable {
 	public static final int TICK = 10; // Milliseconds
 
-	public int Tick = TICK;
+	public int _tick = TICK;
+	public int getTick () { return _tick; }
+	public void setTick (int tick) { _tick = tick; }
 
 	private IReactivixThread _context;
 	private Thread _thread;
@@ -72,7 +74,7 @@ public class ReactivixThread implements Runnable {
 			}
 
 			try {
-				Thread.sleep(Tick);
+				Thread.sleep(_tick);
 			}
 			catch (InterruptedException e) {
 				e.printStackTrace();

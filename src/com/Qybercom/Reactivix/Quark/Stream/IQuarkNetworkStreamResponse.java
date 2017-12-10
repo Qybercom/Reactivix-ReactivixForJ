@@ -8,6 +8,14 @@ import com.Qybercom.Reactivix.Quark.QuarkNetworkPacket;
  * Interface IQuarkNetworkStreamResponse
  */
 public interface IQuarkNetworkStreamResponse extends IQuarkNetworkStreamGeneric {
-	public IQuarkNetworkPacketData StreamResponseDTO();
-	public void StreamResponse(QuarkNetworkClient client, QuarkNetworkPacket packet);
+	/**
+	 * @return IQuarkNetworkPacketData
+	 */
+	IQuarkNetworkPacketData StreamResponseDTO();
+
+	/**
+	 * @param client Associated QuarkNetworkClient
+	 * @param packet Ready for using DTO
+	 */
+	void StreamResponse(QuarkNetworkClient client, QuarkNetworkPacket packet);
 }

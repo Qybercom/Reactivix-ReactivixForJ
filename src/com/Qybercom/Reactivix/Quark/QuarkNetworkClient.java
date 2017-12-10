@@ -3,71 +3,98 @@ package com.Qybercom.Reactivix.Quark;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-import java.util.function.Supplier;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
 
 import com.Qybercom.Reactivix.Network.IReactivixNetworkTransport;
 import com.Qybercom.Reactivix.Network.ReactivixNetworkSocket;
-import com.Qybercom.Reactivix.Network.Events.ReactivixNetworkSocketEventClose;
-import com.Qybercom.Reactivix.Network.Events.ReactivixNetworkSocketEventConnect;
-import com.Qybercom.Reactivix.Network.Events.ReactivixNetworkSocketEventData;
-import com.Qybercom.Reactivix.Network.Events.ReactivixNetworkSocketEventError;
+import com.Qybercom.Reactivix.Network.Events.*;
 
-import com.Qybercom.Reactivix.Utils.Action;
-import com.Qybercom.Reactivix.Utils.ReactivixEvent;
+import com.Qybercom.Reactivix.Utils.*;
 
-import com.Qybercom.Reactivix.Quark.Stream.IQuarkNetworkStreamEvent;
-import com.Qybercom.Reactivix.Quark.Stream.IQuarkNetworkStreamGeneric;
-import com.Qybercom.Reactivix.Quark.Stream.IQuarkNetworkStreamResponse;
-import com.Qybercom.Reactivix.Quark.Events.QuarkNetworkClientEventClose;
-import com.Qybercom.Reactivix.Quark.Events.QuarkNetworkClientEventConnect;
-import com.Qybercom.Reactivix.Quark.Events.QuarkNetworkClientEventError;
+import com.Qybercom.Reactivix.Quark.Stream.*;
+import com.Qybercom.Reactivix.Quark.Events.*;
 
 /**
  * Class QuarkNetworkClient
  */
 public class QuarkNetworkClient {
-	private ReactivixNetworkSocket _socket;
+	/**
+	 * @return ReactivixNetworkSocket
+	 */
 	public ReactivixNetworkSocket Socket () { return _socket; }
+	private ReactivixNetworkSocket _socket;
 
 
-	private ReactivixEvent<QuarkNetworkClientEventConnect> _eventConnect;
+	/**
+	 * @return ReactivixEvent<QuarkNetworkClientEventConnect>
+	 */
 	public ReactivixEvent<QuarkNetworkClientEventConnect> EventConnect () { return _eventConnect; }
+	private ReactivixEvent<QuarkNetworkClientEventConnect> _eventConnect;
 
-	private ReactivixEvent<QuarkNetworkClientEventClose> _eventClose;
+	/**
+	 * @return ReactivixEvent<QuarkNetworkClientEventClose>
+	 */
 	public ReactivixEvent<QuarkNetworkClientEventClose> EventClose () { return _eventClose; }
+	private ReactivixEvent<QuarkNetworkClientEventClose> _eventClose;
 
-	private ReactivixEvent<QuarkNetworkClientEventError> _eventError;
+	/**
+	 * @return ReactivixEvent<QuarkNetworkClientEventError>
+	 */
 	public ReactivixEvent<QuarkNetworkClientEventError> EventError () { return _eventError; }
+	private ReactivixEvent<QuarkNetworkClientEventError> _eventError;
 
 
+	/**
+	 * Class Callback
+	 */
 	private class Callback {
 		private String _url;
 		private Action<QuarkNetworkPacket> _worker;
 		private Type _typeData;
 
+		/**
+		 * @param url Endpoint
+		 * @param worker Callback for incoming packet
+		 * @param typeData Serialization notes
+		 */
 		private Callback (String url, Action<QuarkNetworkPacket> worker, Type typeData) {
 			_url = url;
 			_worker = worker;
 			_typeData = typeData;
 		}
 
+		/**
+		 * @return String
+		 */
 		private String URL () { return _url; }
+
+		/**
+		 * @return Action<QuarkNetworkPacket>
+		 */
 		private Action<QuarkNetworkPacket> Worker () { return _worker; }
-		private Type TypeData () {return _typeData; }
+
+		/**
+		 * @return Type
+		 */
+		private Type TypeData () { return _typeData; }
 	}
 
 	private List<Callback> _responses;
 	private List<Callback> _events;
 
-	private Gson _serializer;
+	/**
+	 * @return Gson
+	 */
 	public Gson Serializer () { return _serializer; }
+	private Gson _serializer;
 
-
+	/**
+	 * @param transport Selected low-level protocol
+	 * @param host Server hostname or IP address
+	 * @param port Server port
+	 */
 	public QuarkNetworkClient (IReactivixNetworkTransport transport, String host, int port) {
 		_responses = new ArrayList<>();
 		_events = new ArrayList<>();
@@ -121,23 +148,43 @@ public class QuarkNetworkClient {
 	}
 
 
+	/**
+	 * @return boolean
+	 */
 	public boolean Connect () {
 		return _socket.Connect();
 	}
 
+	/**
+	 * Performing listening for incoming data
+	 */
 	public void Pipe () {
 		_socket.Pipe();
 	}
 
+	/**
+	 * @return boolean
+	 */
 	public boolean Close () {
 		return _socket.Close();
 	}
 
 
+	/**
+	 * @param data Sample of DTO
+	 * @param callbacks Collection of target callbacks
+	 * @param url Target endpoint
+	 * @param callback Subscribed callback
+	 */
 	private void _subscribe (IQuarkNetworkPacketData data, List<Callback> callbacks, String url, Action<QuarkNetworkPacket> callback) {
-		callbacks.add(new Callback(url, callback, data.getClass()));
+		callbacks.add(new Callback(url, callback, data == null ? null : data.getClass()));
 	}
 
+	/**
+	 * @param callbacks Collection of target callbacks
+	 * @param packet Ready for using DTO
+	 * @param url Target endpoint
+	 */
 	private void _trigger (List<Callback> callbacks, QuarkNetworkPacket packet, String url) {
 		int i = 0;
 		int size = callbacks.size();
@@ -153,7 +200,7 @@ public class QuarkNetworkClient {
 	}
 
 	/**
-	 * @param url URL of called service
+	 * @param url Target endpoint
 	 * @param data Payload DTO
 	 *
 	 * @return boolean
@@ -162,15 +209,28 @@ public class QuarkNetworkClient {
 		return _socket.Send(_serializer.toJson(new QuarkNetworkPacket(url, data)));
 	}
 
+	/**
+	 * @param data Sample of DTO
+	 * @param url Target endpoint
+	 * @param callback Subscribed callback
+	 */
 	public void Response (IQuarkNetworkPacketData data, String url, Action<QuarkNetworkPacket> callback) {
 		_subscribe(data, _responses, url, callback);
 	}
 
+	/**
+	 * @param data Sample of DTO
+	 * @param url Target endpoint
+	 * @param callback Subscribed callback
+	 */
 	public void Event (IQuarkNetworkPacketData data, String url, Action<QuarkNetworkPacket> callback) {
 		_subscribe(data, _events, url, callback);
 	}
 
 
+	/**
+	 * @param stream Dedicated handler for stream
+	 */
 	public void Stream (IQuarkNetworkStreamGeneric stream) {
 		if (stream instanceof IQuarkNetworkStreamResponse) {
 			IQuarkNetworkStreamResponse _stream = (IQuarkNetworkStreamResponse)stream;

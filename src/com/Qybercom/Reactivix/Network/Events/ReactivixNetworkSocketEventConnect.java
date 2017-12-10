@@ -1,7 +1,6 @@
 package com.Qybercom.Reactivix.Network.Events;
 
 import com.Qybercom.Reactivix.Utils.IReactivixEvent;
-
 import com.Qybercom.Reactivix.Network.ReactivixNetworkSocket;
 
 /**
