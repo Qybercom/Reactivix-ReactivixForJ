@@ -18,6 +18,32 @@ import com.Qybercom.Reactivix.Quark.Events.*;
 
 /**
  * Class QuarkNetworkClient
+ *
+ * https://stackoverflow.com/questions/997482/does-java-support-default-parameter-values
+ * https://stackoverflow.com/questions/355060/c-sharp-vs-java-generics
+ * https://stackoverflow.com/questions/10754044/java-generics-vs-c-sharp-where-keyword
+ * https://www.tutorialspoint.com/java/java_string_replaceall.htm
+ * http://proglang.su/java/strings-replaceall
+ *
+ * https://docs.oracle.com/javase/tutorial/extra/generics/methods.html
+ * https://stackoverflow.com/questions/450807/how-do-i-make-the-method-return-type-generic
+ * https://stackoverflow.com/questions/299998/instantiating-object-of-type-parameter
+ * https://stackoverflow.com/questions/1090458/instantiating-a-generic-class-in-java
+ * https://stackoverflow.com/a/12093854/2097055
+ * https://stackoverflow.com/a/6765077/2097055
+ * https://docs.oracle.com/javase/tutorial/java/generics/boundedTypeParams.html
+ * https://stackoverflow.com/questions/15817359/using-generic-method-parameters-in-java
+ * https://stackoverflow.com/questions/15549958/type-t-parameters-in-generic-method-arguments
+ * https://stackoverflow.com/a/1595691/2097055
+ *
+ * https://stackoverflow.com/questions/8715285/how-to-provide-type-arguments-explicitly-when-calling-generic-method-in-java
+ *
+ * https://github.com/google/gson/issues/1190
+ *
+ * https://stackoverflow.com/a/22096369/2097055
+ * https://stackoverflow.com/a/5889590/2097055
+ * https://futurestud.io/tutorials/gson-model-annotations-how-to-ignore-fields-with-expose
+ * https://stackoverflow.com/questions/40909205/java-gson-exclude-fields-during-serialization
  */
 public class QuarkNetworkClient {
 	/**

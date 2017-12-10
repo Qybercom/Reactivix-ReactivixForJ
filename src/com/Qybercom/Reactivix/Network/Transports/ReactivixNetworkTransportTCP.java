@@ -8,6 +8,31 @@ import java.net.InetSocketAddress;
 
 /**
  * Class ReactivixNetworkTransportTCP
+ *
+ * https://habrahabr.ru/post/330676/
+ * http://www.quizful.net/post/java-socket-programming
+ *
+ * http://www.codenet.ru/webmast/java/sockets.php
+ * http://www.dokwork.ru/2012/02/http-java-tcp.html
+ * https://systembash.com/a-simple-java-udp-server-and-udp-client/
+ * https://docs.oracle.com/javase/7/docs/api/java/net/InetSocketAddress.html
+ * https://stackoverflow.com/questions/3895461/java-non-blocking-socket
+ * http://www.java2s.com/Tutorials/Java/Java_Network/0070__Java_Network_Non-Blocking_Socket.htm
+ * https://stackoverflow.com/questions/3551337/java-sockets-nonblocking-read
+ * https://stackoverflow.com/questions/1698654/how-to-make-an-accepted-socket-non-blocking-in-java
+ * http://www.studytrails.com/java-io/non-blocking-io-multiplexing/
+ * http://www.cyberforum.ru/java-networks/thread500470.html
+ * https://stackoverflow.com/questions/38939111/android-socket-getchannel-method-always-returns-null-in-javamail
+ * https://coderanch.com/t/444042/java/Null-Pointer-Exception-SocketChannel
+ * https://coderanch.com/t/443992/java/tranfering-big-files-network
+ * https://stackoverflow.com/questions/5984432/understanding-cause-of-nullpointerexception-in-java-nio-socket-channel
+ *
+ * https://docs.oracle.com/javase/tutorial/networking/sockets/readingWriting.html
+ * https://stackoverflow.com/questions/5680259/using-sockets-to-send-and-receive-data
+ *
+ * https://stackoverflow.com/questions/30395281/is-there-a-equivalent-to-json-net-in-java
+ * http://blog.harrix.org/article/7348
+ * http://blog.harrix.org/article/7231
  */
 public class ReactivixNetworkTransportTCP implements IReactivixNetworkTransport {
 	private Socket _socket;

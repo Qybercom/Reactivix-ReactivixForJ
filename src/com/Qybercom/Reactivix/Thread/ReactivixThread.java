@@ -7,11 +7,15 @@ import java.util.List;
 
 /**
  * Class ReactivixThread
+ *
+ * https://habrahabr.ru/post/164487/
+ * https://stackoverflow.com/a/66076/2097055
+ * https://docs.oracle.com/javase/tutorial/essential/concurrency/sleep.html
  */
 public class ReactivixThread implements Runnable {
 	public static final int TICK = 10; // Milliseconds
 
-	public int _tick = TICK;
+	private int _tick = TICK;
 	public int getTick () { return _tick; }
 	public void setTick (int tick) { _tick = tick; }
 
