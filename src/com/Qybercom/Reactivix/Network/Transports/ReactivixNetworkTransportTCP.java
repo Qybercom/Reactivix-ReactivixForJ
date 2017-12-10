@@ -49,6 +49,8 @@ public class ReactivixNetworkTransportTCP implements IReactivixNetworkTransport 
 	 * @return boolean
 	 */
 	public boolean Send (String data) throws IOException {
+		if (_socket == null) return false;
+
 		_writer.write(data);
 		_writer.flush();
 
@@ -59,6 +61,8 @@ public class ReactivixNetworkTransportTCP implements IReactivixNetworkTransport 
 	 * @return String
 	 */
 	public String Receive () throws IOException {
+		if (_socket == null) return null;
+
 		int available = _socket.getInputStream().available();
 
 		if (available == 0) return null;
@@ -74,6 +78,8 @@ public class ReactivixNetworkTransportTCP implements IReactivixNetworkTransport 
 	 * @return boolean
 	 */
 	public boolean Close () throws IOException {
+		if (_socket == null) return false;
+
 		_socket.close();
 
 		return true;
