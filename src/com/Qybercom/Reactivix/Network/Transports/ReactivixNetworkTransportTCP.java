@@ -14,6 +14,7 @@ public class ReactivixNetworkTransportTCP implements IReactivixNetworkTransport 
 	//private DataInputStream _streamInput;
 	//private DataOutputStream _streamOutput;
 	private BufferedReader _reader;
+	private BufferedWriter _writer;
 
 	public ReactivixNetworkTransportTCP () {
 		_socket = new Socket();
@@ -39,6 +40,7 @@ public class ReactivixNetworkTransportTCP implements IReactivixNetworkTransport 
 		//_streamOutput = new DataOutputStream(_socket.getOutputStream());
 
 		_reader = new BufferedReader(new InputStreamReader(_socket.getInputStream()));
+		_writer = new BufferedWriter(new OutputStreamWriter(_socket.getOutputStream()));
 
 		//_socket.setSoTimeout(0);
 		//_socket.getChannel().configureBlocking(false);
@@ -53,9 +55,11 @@ public class ReactivixNetworkTransportTCP implements IReactivixNetworkTransport 
 	 */
 	public boolean Send (String data) throws IOException {
 		//_socket.getChannel().configureBlocking(true);
-		/*_streamOutput.writeUTF(data);
-		_streamOutput.flush();*/
-		_socket.getOutputStream();
+		/*_socket.getOutputStream().writeUTF(data);
+		_socket.getOutputStream().flush();*/
+		_writer.write(data);
+		_writer.flush();
+		//_socket.getOutputStream();
 		//_socket.getChannel().configureBlocking(false);
 
 		return true;

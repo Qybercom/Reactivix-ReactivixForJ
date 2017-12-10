@@ -11,10 +11,17 @@ import com.Qybercom.Reactivix.Network.Events.ReactivixNetworkSocketEventError;
  * Class ReactivixNetworkSocket
  */
 public class ReactivixNetworkSocket {
-	public IReactivixNetworkTransport Transport;
+	private IReactivixNetworkTransport _transport;
+	public IReactivixNetworkTransport getTransport () { return _transport; }
+	public void setTransport (IReactivixNetworkTransport transport) { _transport = transport; }
 
-	public String Host;
-	public int Port;
+	private String _host;
+	public String getHost () { return _host; }
+	public void setHost (String host) { _host = host; }
+
+	private int _port;
+	public int getPort () { return _port; }
+	public void setPort (int port) { _port = port; }
 
 
 	private ReactivixEvent<ReactivixNetworkSocketEventConnect> _eventConnect;
@@ -31,10 +38,10 @@ public class ReactivixNetworkSocket {
 
 
 	public ReactivixNetworkSocket (IReactivixNetworkTransport transport, String host, int port) {
-		Transport = transport;
+		setTransport(transport);
 
-		Host = host;
-		Port = port;
+		setHost(host);
+		setPort(port);
 
 		_eventConnect = new ReactivixEvent<>();
 		_eventData = new ReactivixEvent<>();
@@ -44,8 +51,9 @@ public class ReactivixNetworkSocket {
 
 	public void Pipe () {
 		try {
-			if (Transport.Connected()) {
-				String data = Transport.Receive();
+			if (_transport.Connected()) {
+				String data = _transport.Receive();
+
 				if (data != null)
 					_eventData.Trigger(new ReactivixNetworkSocketEventData(this, data));
 			}
@@ -57,7 +65,7 @@ public class ReactivixNetworkSocket {
 
 	public boolean Connect () {
 		try {
-			boolean connect = Transport.Connect(Host, Port);
+			boolean connect = _transport.Connect(_host, _port);
 
 			if (connect)
 				_eventConnect.Trigger(new ReactivixNetworkSocketEventConnect(this));
@@ -72,7 +80,7 @@ public class ReactivixNetworkSocket {
 
 	public boolean Send (String data) {
 		try {
-			return Transport.Send(data);
+			return _transport.Send(data);
 		}
 		catch (Exception e) {
 			_eventError.Trigger(new ReactivixNetworkSocketEventError(this, e));
@@ -83,7 +91,7 @@ public class ReactivixNetworkSocket {
 
 	public boolean Close () {
 		try {
-			boolean close = Transport.Connect(Host, Port);
+			boolean close = _transport.Close();
 
 			if (close)
 				_eventClose.Trigger(new ReactivixNetworkSocketEventClose(this));
